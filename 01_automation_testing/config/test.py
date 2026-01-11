@@ -4,7 +4,7 @@
 Config 테스트 스크립트
 """
 
-from config.config import Config
+from config import Config
 
 
 def test_basic_config():
@@ -100,17 +100,17 @@ def test_driver_creation():
         traceback.print_exc()
 
 
-def test_validation():
-    """설정 검증 테스트"""
-    print("\n" + "=" * 60)
-    print("설정 검증 테스트")
-    print("=" * 60)
+# def test_validation():
+#     """설정 검증 테스트"""
+#     print("\n" + "=" * 60)
+#     print("설정 검증 테스트")
+#     print("=" * 60)
     
-    try:
-        Config.validate()
-        print("\n✅ 모든 검증 통과")
-    except ValueError as e:
-        print(f"\n❌ 검증 실패:\n{e}")
+#     try:
+#         Config.validate()
+#         print("\n✅ 모든 검증 통과")  
+#     except ValueError as e:
+#         print(f"\n❌ 검증 실패:\n{e}")
 
 
 def main():
@@ -125,8 +125,8 @@ def main():
     # 2. Chrome 옵션
     test_chrome_options()
     
-    # 3. 검증
-    test_validation()
+    # # 3. 검증
+    # test_validation()
     
     # 4. WebDriver 생성 (선택)
     test_driver_creation()

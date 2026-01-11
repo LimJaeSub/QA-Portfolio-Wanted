@@ -23,6 +23,10 @@ class Config:
     IMPLICIT_WAIT = int(os.getenv("IMPLICIT_WAIT", "10"))
     EXPLICIT_WAIT = int(os.getenv("EXPLICIT_WAIT", "20"))
     
+    # 테스트 계정 (향후 로그인 테스트용)
+    TEST_EMAIL = os.getenv("TEST_EMAIL")
+    TEST_PASSWORD = os.getenv("TEST_PASSWORD")
+    
     
     # 
     @staticmethod
