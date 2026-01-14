@@ -151,14 +151,13 @@ Wanted.co.kr
 **브라우저**
 | 브라우저 | 버전 | 용도 |
 |---------|------|------|
-| Chrome | 119.x | 메인 테스트 |
-| Safari | 15+ | 크로스 브라우저 |
-| Firefox | 118+ | 크로스 브라우저 |
+| Chrome | 119.x | 테스트 브라우저 |
+
 
 **테스트 도구**
 - **자동화**: Python 3.11+, Selenium WebDriver 4.x, pytest
 - **API**: Postman
-- **성능**: Chrome Lighthouse, DevTools
+- **성능**: Chrome Lighthouse, Apache jmeter
 - **이슈 관리**: Jira
 - **버전 관리**: Git, GitHub
 

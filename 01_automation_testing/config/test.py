@@ -1,8 +1,6 @@
 # 02-automation-testing/test_config.py
+# config 파일이 잘 동작하는지
 
-"""
-Config 테스트 스크립트
-"""
 
 from config import Config
 
