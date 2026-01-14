@@ -12,15 +12,76 @@ from selenium.common.exceptions import TimeoutException
 from config.config import Config
 
 class BasePage:
-    # 모든 페이지의 기본 클래스
-
-    def __init__(self,driver):
-
-        # 드라이버 및 대기 시간 정의
-        self.driver = driver
-        self.wait = WebDriverWait(driver,Config.EXPLICIT_WAIT)
+    # 모든 페이지의 기본 기능 클래스
     
-    def find_element(self,locator):
+    def __init__(self, driver):
+
+        self.driver = driver
+        self.wait = WebDriverWait(driver, Config.EXPLICIT_WAIT)
+    
+    def find_element(self, locator):
+        #요소 찾기
+        return self.driver.find_element(*locator)
+    
         
+        """
+        *locator를 쓰는 이유?
+        기존 driver.find_element는 2개의 인자를 받는다
+        ex) driver.find_element(By.CSS_SELECTOR,"#query")
+
+        BasePage 클래스에서는 어떤 인자가 올 지 몰라서 *locator로 압축하여 전달한다.
+        """
+    
+    def find_elements(self, locator):
+        # 여러 요소 찾기
+        return self.driver.find_elements(*locator)
+    
+    def click(self, locator):
+        # 요소 클릭
+        element = self.wait.until(EC.element_to_be_clickable(locator)) #요소가 클릭 가능할때 까지 대기
+        element.click()
+
+        """
+        여기선 왜 locator를 사용?
+        EC.element_to_be_clickable은 하나의 인자만 받는다.
+        ex) EC.element_to_be_clickable((By.CSS_SELECTOR, "input.search"))
+        """
+    
+    def input_text(self, locator, text):
+        # 텍스트 입력 
+        element = self.wait.until(EC.visibility_of_element_located(locator))
+        element.clear()
+        element.send_keys(text)
+    
+    def get_text(self, locator):
+        # 요소의 텍스트 추출
+        element = self.wait.until(EC.visibility_of_element_located(locator))
+        return element.text
+    
+    def is_element_visible(self, locator, timeout=None):
+        #요소 보이는지 확인
+        try:
+            wait_time = timeout if timeout else Config.EXPLICIT_WAIT # 대기 시간 설정
+            wait = WebDriverWait(self.driver, wait_time)
+            wait.until(EC.visibility_of_element_located(locator))
+            return True
+        except TimeoutException: 
+            return False
+    
+    def is_element_present(self, locator):
+        # 요소 DOM에 존재하는지 확인
+        try:
+            self.wait.until(EC.presence_of_element_located(locator))
+            return True
+        except TimeoutException:
+            return False
+    
+    def get_current_url(self):
+        # 현재 URL
+        return self.driver.current_url
+    
+    def get_page_title(self):
+        # 현재 타이틀
+        return self.driver.title
 
 

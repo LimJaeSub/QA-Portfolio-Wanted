@@ -72,6 +72,12 @@
 - 테스팅은 시크릿 모드에서 진행
 - config.py : 설정 값 저장소
 - conftest.py : 브라우저 생성 코드를 작성하면 매 테스트마다 브라우저를 생성하지 않아도 됨
+
+- visibility_of_element_located(locator) : 해당 요소가 페이지에 있는지 확인
+- presence_of_element_located(locator) : DOM에 요소가 있는지 확인
+- 
+
+
 ---
 
 ### 📝 Day 4 - 예정
