@@ -73,9 +73,14 @@
 - config.py : 설정 값 저장소
 - conftest.py : 브라우저 생성 코드를 작성하면 매 테스트마다 브라우저를 생성하지 않아도 됨
 
+- *locator의 역할 : 튜플이나 여러 개의 인자를 풀어서 전달
+- driver는 *locator를 사용하고 EC는 튜플 그대로 사용한다.
 - visibility_of_element_located(locator) : 해당 요소가 페이지에 있는지 확인
 - presence_of_element_located(locator) : DOM에 요소가 있는지 확인
-- 
+
+
+- base_page는 부모 클래스
+- base_page에서 기본적인 메서드 작성하고 이후 하단 페이지에 상속시켜주기.
 
 
 ---
