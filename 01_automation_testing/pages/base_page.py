@@ -80,6 +80,10 @@ class BasePage:
         # 현재 URL
         return self.driver.current_url
     
+    def navigate_to_url(self,url):
+        # url 이동
+        self.driver.get(url)
+    
     def get_page_title(self):
         # 현재 타이틀
         return self.driver.title
