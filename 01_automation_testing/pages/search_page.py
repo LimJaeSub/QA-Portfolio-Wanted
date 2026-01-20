@@ -16,6 +16,9 @@ class SearchModal(BasePage):
     # locators
     SEARCH_ICON = (By.CSS_SELECTOR,"button[data-gnb-kind='search']")
     SEARCH_INPUT = (By.CSS_SELECTOR, "[role='presentation'] input[type='search']")
+    RECENT_SEARCH_KEYWORD = (By.CSS_SELECTOR,"ul[class*='RecentSearchList] li a") 
+    # class명에 RecentSearchList를 포함하는 ul의 li의 a
+
 
     def __init__(self,driver):
         super().__init__(driver)
@@ -29,7 +32,6 @@ class SearchModal(BasePage):
         # 모달 보이는지 확인
         return self.is_element_visible(self.SEARCH_INPUT)
     
-
     def enter_search_keyword(self,keyword):
         # 검색창에 검색 키워드 입력
         self.input_text(self.SEARCH_INPUT,keyword)
@@ -39,6 +41,9 @@ class SearchModal(BasePage):
         element = self.find_element(self.SEARCH_INPUT)
         element.send_keys(Keys.RETURN)
 
+    def get_recent_searches(self):
+        # 최근 검색어 리스트 추출
+        recent_search_elements = self.find_elements(self.RECENT_SEARCH_KEYWORD)
     
 
 
