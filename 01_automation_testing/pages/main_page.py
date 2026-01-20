@@ -8,7 +8,8 @@ from config.config import Config
 
 class MainPage(BasePage):
     # locators
-    AI_SEARCH_INPUT = (By.CSS_SELECTOR,"[data-role='test-field-wrapper] input")
+    AI_SEARCH_INPUT = (By.CSS_SELECTOR,"[data-role='test-field-wrapper'] input")
+    PAGE_TITLE = "원티드 - 일하는 사람들의 모든 가능성"
 
     """
     shortcut menu datakind
@@ -45,7 +46,7 @@ class MainPage(BasePage):
     # main page가 로드 되었는지 확인 
     def is_loaded(self):
         
-        if((self.get_page_title() == "원티드 - 일하는 사람들의 모든 가능성")
+        if((self.get_page_title() == self.PAGE_TITLE)
            and
            (self.is_element_visible(self.AI_SEARCH_INPUT))):
             return True
