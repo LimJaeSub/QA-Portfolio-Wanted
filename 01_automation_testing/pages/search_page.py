@@ -43,7 +43,17 @@ class SearchModal(BasePage):
 
     def get_recent_searches(self):
         # 최근 검색어 리스트 추출
+        text_list = []
         recent_search_elements = self.find_elements(self.RECENT_SEARCH_KEYWORD)
+        for element in recent_search_elements:
+            text_list.append(element.text)
+        
+        return text_list
+    
+    def is_recent_search_visible(self,keyword):
+        # 검색어 리스트에 사용자가 검색한 keyword가 있는지 확인
+        # T/F return
+
     
 
 

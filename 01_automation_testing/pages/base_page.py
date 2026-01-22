@@ -4,7 +4,7 @@
 
 # page 대기 관련
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_condirions as EC
+from selenium.webdriver.support import expected_conditions as EC
 
 # 예외 처리
 from selenium.common.exceptions import TimeoutException
@@ -18,10 +18,13 @@ class BasePage:
 
         self.driver = driver
         self.wait = WebDriverWait(driver, Config.EXPLICIT_WAIT)
+        # timeout 조절이 필요하지 않은 것들은 self.wait 사용
     
-    def find_element(self, locator):
+    def find_element(self, locator,timeout=None):
         #요소 찾기
-        return self.driver.find_element(*locator)
+        wait_time = timeout if timeout else Config.EXPLICIT_WAIT
+        wait = WebDriverWait(self.driver,wait_time)
+        return wait.until(EC.presence_of_element_located(locator))
     
         
         """
@@ -32,9 +35,14 @@ class BasePage:
         BasePage 클래스에서는 어떤 인자가 올 지 몰라서 *locator로 압축하여 전달한다.
         """
     
-    def find_elements(self, locator):
+    def find_elements(self, locator,timeout=None):
         # 여러 요소 찾기
-        return self.driver.find_elements(*locator)
+        try:
+            wait_time = timeout if timeout else Config.EXPLICIT_WAIT
+            wait = WebDriverWait(self.driver,wait_time)
+            return wait.until(EC.presence_of_all_elements_located(locator))
+        except TimeoutException:
+            return []
     
     def click(self, locator):
         # 요소 클릭
