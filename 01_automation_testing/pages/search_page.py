@@ -1,5 +1,5 @@
 # /pages/search_page.py
-
+import time
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 
@@ -24,6 +24,8 @@ class SearchModal(BasePage):
     # class명에 RecentSearchList를 포함하는 ul의 li의 a
     TOAST_MESSAGE = (By.CSS_SELECTOR,"[role='alert']")
     AUTOCOMPLETE_SUGGESTION = (By.CSS_SELECTOR,"ul[class*='RelatedSearchResults_RecentSearchList'] li a")
+
+
 
 
     def __init__(self,driver):
@@ -97,6 +99,20 @@ class SearchResultsPage(BasePage):
     # locators
     TAB_PANEL = (By.CSS_SELECTOR,"[role='tabpanel']")
     NO_RESULT_MESSAGE = (By.XPATH,"//*[contains(text(),'검색 결과가 없어요')]")
+
+    # 검색 결과 탭
+    POSITION_ITEMS = (By.CSS_SELECTOR, "[class*='JobCard_container']")
+    COMPANY_ITEMS = (By.CSS_SELECTOR, "[class*='SearchCompanyCard_container']")
+    CONTENT_ITEMS = (By.CSS_SELECTOR, "[class*='SearchCareerCard_container']")
+    SOCIAL_ITEMS = (By.CSS_SELECTOR, "[class*='SearchSocialCard'][class*='root']")
+    PROFILE_ITEMS = (By.CSS_SELECTOR, "[class*='SearchProfileCard_ProfileCard']")
+
+    #활성화 탭
+    ACTIVE_TAB = (By.CSS_SELECTOR, "[role='tab'][aria-selected='true']")
+
+    # 결과 갯수
+    RESULT_COUNT = (By.CSS_SELECTOR, "[class*=SearchContentTitle_TitleCount]")
+
     def __init__(self,driver):
         super().__init__(driver)
     
@@ -112,7 +128,58 @@ class SearchResultsPage(BasePage):
         parsed_url = urlparse(current_url)
         query_params = parse_qs(parsed_url.query) # 디코딩
         return query_params.get("query",[None])[0]
-        
     
+    def is_no_result_page(self):
+        # 검색 결과 여부 확인
+        return self.is_element_visible(self.NO_RESULT_MESSAGE)
+    
+    def get_no_result_message(self):
+        # 검색 결과 없음 메시지 가져오기
+        message = self.get_text(self.NO_RESULT_MESSAGE)
+        return message
+        
+    # 검색 결과 탭 부분
+    def now_tab(self):
+        # 현재 활성화 된 탭
+        tabname = self.get_text(self.ACTIVE_TAB).split('(')[0]
+        return tabname
+        
+    def get_result_count_from_title(self):
+        # 제목에 있는 검색 결과 수 가져오기
+        count = int(self.get_text(self.RESULT_COUNT))
+        return count
+
+    def count_result(self):
+        # 무한 스크롤로 실제 결과값 계산
+        tabname = self.now_tab()
+        if tabname == "포지션":
+            locator = self.POSITION_ITEMS
+        elif tabname == "회사":
+            locator = self.COMPANY_ITEMS
+        elif tabname == "콘텐츠":
+            locator = self.CONTENT_ITEMS
+        elif tabname == "소셜":
+            locator = self.SOCIAL_ITEMS
+        elif tabname == "프로필":
+            locator = self.PROFILE_ITEMS
+
+        #무한 스크롤
+        prev_count = 0
+
+        while(True):
+            current_count = len(self.find_elements(locator))
+
+            if(current_count==prev_count):
+                break
+
+            prev_count=current_count
+
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight)") #스크롤
+
+            time.sleep(1)
+        
+        return current_count
+
+
 
 
