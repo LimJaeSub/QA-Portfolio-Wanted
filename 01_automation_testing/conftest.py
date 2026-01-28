@@ -24,12 +24,12 @@ from config.config import Config
 
 
 # pytest작성
-@pytest.fixure(scope="function")
+@pytest.fixture(scope="function")
 def browser():
     # Setup : 브라우저 생성
     options = Config.get_chrome_options() # config에서 크롬 옵션 가져오기
     driver = webdriver.Chrome(options=options) # 가져온 option으로 driver 생성
-    driver.implicity_wait(Config.IMPLICIT_WAIT) # 대기 시간 생성
+    driver.implicitly_wait(Config.IMPLICIT_WAIT) # 대기 시간 생성
     driver.maximize_window() # 화면 최대화
 
     print(f"Setup 완료")
