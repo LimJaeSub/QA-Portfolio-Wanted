@@ -44,4 +44,36 @@ def test_empty_enter_keyword(browser,base_url):
     message = modal.get_toast_message()
     assert "검색어를 입력해주세요" in message
 
+def test_autocomplete(browser,base_url):
+    """자동완성 기능 확인"""
+
+    browser.get(base_url)
+    time.sleep(2)
+
+    # 검색 모달 오픈
+    modal = SearchModal(browser)
+    modal.open_modal()
+    time.sleep(2)
+
+    # 검색 키워드 입력
+    keyword = "QA"
+    modal.enter_search_keyword(keyword)
+    time.sleep(2)
+
+    # 자동완성 요소 표시 확인
+    assert modal.is_autocomplete_visible()
+
+    # 자동완성 항목 가져오기
+    suggestions = modal.get_autocomplete_suggestions()
+
+    # 항목이 있는지 확인
+    assert len(suggestions) > 0
+
+    # 항목에 keyword 단어가 포함되는지 확인(최소 1개 이상)
+    matching_list = []
+    for auto in suggestions:
+        if(keyword in auto):
+            matching_list.append(auto)
+    
+    assert len(matching_list)>=1
     
