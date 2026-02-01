@@ -124,8 +124,11 @@ def test_no_results(browser,base_url):
 
     # 검색 결과 없는 메시지 확인
     message = result_page.get_no_result_message()
-    assert ""
+    assert "검색 결과가 없어요" in message
 
+    print(f"\n검색어: {keyword}")
+    print(f"메시지: {message}")
+    print("검색 결과 없음 확인")
 
 
 
