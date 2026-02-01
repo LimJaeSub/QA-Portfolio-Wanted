@@ -101,17 +101,27 @@ class SearchResultsPage(BasePage):
     NO_RESULT_MESSAGE = (By.XPATH,"//*[contains(text(),'검색 결과가 없어요')]")
 
     # 검색 결과 탭
-    POSITION_ITEMS = (By.CSS_SELECTOR, "[class*='JobCard_container']")
-    COMPANY_ITEMS = (By.CSS_SELECTOR, "[class*='SearchCompanyCard_container']")
-    CONTENT_ITEMS = (By.CSS_SELECTOR, "[class*='SearchCareerCard_container']")
-    SOCIAL_ITEMS = (By.CSS_SELECTOR, "[class*='SearchSocialCard'][class*='root']")
-    PROFILE_ITEMS = (By.CSS_SELECTOR, "[class*='SearchProfileCard_ProfileCard']")
+    POSITION_ITEMS = (By.CSS_SELECTOR, 
+        "[role='tabpanel']:not([hidden]) [class*='JobCard_container']")
+    
+    COMPANY_ITEMS = (By.CSS_SELECTOR, 
+        "[role='tabpanel']:not([hidden]) [class*='SearchCompanyCard_container']")
+    
+    CONTENT_ITEMS = (By.CSS_SELECTOR, 
+        "[role='tabpanel']:not([hidden]) [class*='SearchCareerCard_container']")
+    
+    SOCIAL_ITEMS = (By.CSS_SELECTOR, 
+        "[role='tabpanel']:not([hidden]) [class*='SearchSocialCard'][class*='root']")
+    
+    PROFILE_ITEMS = (By.CSS_SELECTOR, 
+        "[role='tabpanel']:not([hidden]) [class*='SearchProfileCard_ProfileCard']")
 
     #활성화 탭
     ACTIVE_TAB = (By.CSS_SELECTOR, "[role='tab'][aria-selected='true']")
 
     # 결과 갯수
-    RESULT_COUNT = (By.CSS_SELECTOR, "[class*=SearchContentTitle_TitleCount]")
+    RESULT_COUNT = (By.CSS_SELECTOR, 
+    "[role='tabpanel']:not([hidden]) [class*='SearchContentTitle_TitleCount']")
 
     def __init__(self,driver):
         super().__init__(driver)
@@ -143,6 +153,15 @@ class SearchResultsPage(BasePage):
         # 현재 활성화 된 탭
         tabname = self.get_text(self.ACTIVE_TAB).split('(')[0]
         return tabname
+
+    def click_tab(self,tab_name):
+        tab_buttons = self.find_elements((By.CSS_SELECTOR, "[role='tab']"))
+
+        for tab in tab_buttons:
+            if(tab_name in tab.text):
+                tab.click()
+                time.sleep(1) # 탭 전환 대기
+                return
         
     def get_result_count_from_title(self):
         # 제목에 있는 검색 결과 수 가져오기
