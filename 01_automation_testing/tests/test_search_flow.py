@@ -1,6 +1,7 @@
 import time
+import pytest
 from pages.search_page import SearchModal, SearchResultsPage
-"""
+
 def test_result_page(browser,base_url):
     # 검색 전체 플로우
 
@@ -99,7 +100,7 @@ def test_result_count_matches(browser,base_url):
     assert result_count == scroll_count, \
         f"개수 불일치! 타이틀: {result_count}, 실제: {scroll_count}"
     print("개수 비교 테스트 종료")
-"""
+
 
 def test_no_results(browser,base_url):
     browser.get(base_url)
@@ -129,6 +130,39 @@ def test_no_results(browser,base_url):
     print(f"\n검색어: {keyword}")
     print(f"메시지: {message}")
     print("검색 결과 없음 확인")
+    
+@pytest.mark.skip(reason="로그인 필요 (테스트 계정 생성 불가, 이미 가입한 명의로 재가입 불가능)")
+def test_recent_searches(browser,base_url):
+    browser.get(base_url)
+    time.sleep(2)
+
+    # 검색 모달 열기
+    modal = SearchModal(browser)
+    modal.open_modal()
+    time.sleep(2)
+
+    # 새로운 검색어 입력 및 실행
+    keyword = "프론트엔드"
+    modal.enter_search_keyword(keyword)
+    modal.execute_search()
+    time.sleep(3)
+    
+    # 결과 페이지 확인
+    result_page = SearchResultsPage(browser)
+    assert result_page.is_loaded()
+
+    # 결과 페이지에서 다시 검색 모달 열기
+    modal2 = SearchModal(browser)
+    modal2.open_modal()
+    time.sleep(2)
+    assert modal2.is_modal_visible()
+
+    # 최근 검색어에 방금 검색한 키워드가 있는지 확인
+    recent_searches = modal2.get_recent_searches()
+    assert modal2.is_recent_search_visible(keyword), \
+        f"최근 검색어에 {keyword}가 없음"
+        
+    print(f"\n최근 검색어 리스트: {recent_searches}")
 
 
 
