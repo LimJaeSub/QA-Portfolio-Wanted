@@ -8,7 +8,7 @@ from config.config import Config
 
 class MainPage(BasePage):
     # locators
-    AI_SEARCH_INPUT = (By.CSS_SELECTOR,"[data-role='test-field-wrapper'] input")
+    AI_SEARCH_BUTTON = (By.CSS_SELECTOR, "button[wds-component='text-button'][data-color='primary']")
     PAGE_TITLE = "원티드 - 일하는 사람들의 모든 가능성"
 
     """
@@ -48,16 +48,19 @@ class MainPage(BasePage):
         
         if((self.get_page_title() == self.PAGE_TITLE)
            and
-           (self.is_element_visible(self.AI_SEARCH_INPUT))):
+           (self.is_element_visible(self.AI_SEARCH_BUTTON))):
             return True
         else:
             return False
     
-    # AI 검색어 입력 후 엔터
-    def search_ai(self, keyword):
-        self.input_text(self.AI_SEARCH_INPUT, keyword) # AI 검색 input에 키워드 입력
-        element = self.find_element(self.AI_SEARCH_INPUT) # AI 검색 input 요소를 찾은 후~
-        element.send_keys(Keys.ENTER) # 엔터 입력
+    # # AI 검색어 입력 후 엔터
+    # def search_ai(self, keyword):
+    #     self.input_text(self.AI_SEARCH_INPUT, keyword) # AI 검색 input에 키워드 입력
+    #     element = self.find_element(self.AI_SEARCH_INPUT) # AI 검색 input 요소를 찾은 후~
+    #     element.send_keys(Keys.ENTER) # 엔터 입력
+
+    def click_ai_agent_button(self):
+        self.click(self.AI_SEARCH_BUTTON)
     
 
 

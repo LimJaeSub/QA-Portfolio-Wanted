@@ -1,7 +1,7 @@
 # 01_automation_testing/pages/base_page.py
 ## 모든 Page Object의 공통 기능을 정의함
 
-
+import time
 # page 대기 관련
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -95,5 +95,6 @@ class BasePage:
     def get_page_title(self):
         # 현재 타이틀
         return self.driver.title
+    
 
 
