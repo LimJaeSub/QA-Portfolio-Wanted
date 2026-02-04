@@ -20,7 +20,8 @@ def test_open_modal(browser,base_url):
 
 
 def test_empty_enter_keyword(browser,base_url):
-    """ 공백 검색어 입력 테스트 """
+    # 공백 검색어 입력 테스트 : TC_003
+    
     browser.get(base_url)
     time.sleep(2)
 

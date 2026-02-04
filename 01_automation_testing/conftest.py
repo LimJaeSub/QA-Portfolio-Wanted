@@ -37,7 +37,7 @@ def browser():
     yield driver # driver 전달
 
     # 브라우저 종료
-    print(f"브라우저 종료")
+    print(f"\n브라우저 종료")
     driver.quit()
     print(f"종료 완료")
 

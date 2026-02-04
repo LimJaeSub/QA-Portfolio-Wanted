@@ -3,7 +3,7 @@ import pytest
 from pages.search_page import SearchModal, SearchResultsPage
 
 def test_result_page(browser,base_url):
-    # 검색 전체 플로우
+    # 검색 전체 플로우 : TC_001
 
     browser.get(base_url)
     time.sleep(2)
@@ -32,7 +32,8 @@ def test_result_page(browser,base_url):
 
 
 def test_result_count_matches(browser,base_url):
-    # 타이틀의 갯수와 실제 갯수 비교
+    # 타이틀의 갯수와 실제 갯수 비교 : TC_008
+    
     browser.get(base_url)
     time.sleep(2)
 
@@ -103,6 +104,7 @@ def test_result_count_matches(browser,base_url):
 
 
 def test_no_results(browser,base_url):
+    # 결과 없는 검색어 : TC_002
     browser.get(base_url)
     time.sleep(2)
 
@@ -133,6 +135,8 @@ def test_no_results(browser,base_url):
     
 @pytest.mark.skip(reason="로그인 필요 (테스트 계정 생성 불가, 이미 가입한 명의로 재가입 불가능)")
 def test_recent_searches(browser,base_url):
+    # 최근검색어 테스트 : TC_006
+
     browser.get(base_url)
     time.sleep(2)
 
