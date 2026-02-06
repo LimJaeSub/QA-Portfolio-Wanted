@@ -3,18 +3,11 @@ from pages.base_page import BasePage
 import time
 
 class JobListPage(BasePage):
-    #URL
+    # URL
     URL_PATH = "/wdlist"
 
     # 최상단 필터 버튼
     JOB_GROUP_BUTTON = (By.XPATH, "//button[contains(text(), '직군 전체')]")
-    CAREER_GROUP_BUTTON = (By.XPATH,"//button[contains(text(),'경력 전체')]")
-
-    # 직군 필터 목록
-    CATEGORY_DEV = (By.XPATH, "//div[contains(text(), '개발')]")
-
-    # 직군 > 상세 필터 목록
-    JOB_QA = (By.XPATH, "//button[contains(text(), 'QA 테스트 엔지니어')]")
 
     # 버튼
     APPLY_BUTTON = (By.XPATH, "//button[contains(text(), '적용')]")
@@ -29,16 +22,18 @@ class JobListPage(BasePage):
     
     
     def is_loaded(self):
-        # 페이지 로드 확인
+        """페이지 로드 확인"""
         return self.URL_PATH in self.get_current_url()
     
+    
+    # ===== 직군 필터 =====
+    
     def click_job_group_button(self):
-        # 직군 직무 버튼 클릭
+        """직군·직무 버튼 클릭"""
         self.click(self.JOB_GROUP_BUTTON)
-        time.sleep(1)   
-
-     
-    # 필터 선택
+        time.sleep(1)
+    
+    
     def select_category(self, category_name):
         """
         왼쪽 대분류 카테고리 선택
@@ -63,8 +58,9 @@ class JobListPage(BasePage):
         
         self.click(locator)
         time.sleep(1)
-
-    # 필터 적용/초기화
+    
+    
+    # ===== 필터 적용/초기화 =====
     
     def apply_filter(self):
         """적용 버튼 클릭"""
@@ -76,12 +72,47 @@ class JobListPage(BasePage):
         """초기화 버튼 클릭"""
         self.click(self.RESET_BUTTON)
         time.sleep(2)
-
-    # 결과 검증
+    
+    
+    # ===== 결과 검증 =====
+    
     def get_job_cards_count(self):
         """채용 공고 결과 개수 반환"""
         cards = self.find_elements(self.JOB_CARDS)
         return len(cards)
-
-    def keyword
-
+    
+    
+    def keyword_in_job_cards(self, keyword):
+        """5개 이상 채용 공고 카드에 특정 키워드가 포함되어 있는지 확인"""
+        cards = self.find_elements(self.JOB_CARDS)
+        count = 0
+        
+        for card in cards:
+            if keyword.lower() in card.text.lower():
+                count += 1
+        
+        print(f"'{keyword}' 포함 카드: {count}/{len(cards)}개")
+        return count >= 5
+    
+    
+    def is_filter_reset_in_modal_job(self):
+        """필터 모달 내 직군 초기화 상태 확인"""
+        try:
+            left_panel = self.find_element(
+                (By.XPATH, "//div[contains(text(), '직군 전체')]")
+            )
+            
+            right_message = self.find_element(
+                (By.XPATH, "//div[contains(text(), '직군을 선택하면')]")
+            )
+            
+            return left_panel is not None and right_message is not None
+            
+        except:
+            return False
+    
+    
+    def is_filter_reset_job(self):
+        """직군 필터가 초기화 상태인지 확인"""
+        job_group_text = self.get_text(self.JOB_GROUP_BUTTON)
+        return "직군 전체" in job_group_text
