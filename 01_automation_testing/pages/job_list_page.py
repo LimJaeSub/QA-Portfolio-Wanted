@@ -7,7 +7,7 @@ class JobListPage(BasePage):
     URL_PATH = "/wdlist"
 
     # 최상단 필터 버튼
-    JOB_GROUP_BUTTON = (By.XPATH, "//button[contains(text(), '직군 전체')]")
+    JOB_GROUP_BUTTON = (By.CSS_SELECTOR, "button[data-filter-name='jobCategory,jobRole']")
 
     # 버튼
     APPLY_BUTTON = (By.XPATH, "//button[contains(text(), '적용')]")
