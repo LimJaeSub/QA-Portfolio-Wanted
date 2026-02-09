@@ -19,7 +19,7 @@ def test_job_filter_qa(browser, base_url):
     job_list_page.select_category("개발")
     
     # 5. 소분류 "QA 테스트 엔지니어" 선택
-    job_list_page.select_job("QA 테스트 엔지니어")
+    job_list_page.select_job("QA,테스트 엔지니어")
     
     # 6. 적용 버튼 클릭
     job_list_page.apply_filter()
@@ -47,7 +47,7 @@ def test_job_filter_reset(browser, base_url):
     job_list_page.select_category("개발")
     
     # 5. 소분류 "QA 테스트 엔지니어" 선택
-    job_list_page.select_job("QA 테스트 엔지니어")
+    job_list_page.select_job("QA,테스트 엔지니어")
     
     # 6. 적용 버튼 클릭
     job_list_page.apply_filter()
@@ -64,3 +64,5 @@ def test_job_filter_reset(browser, base_url):
     assert "/wdlist/all" in job_list_page.get_current_url(), "필터가 초기화되지 않음"
     
     print("✅ TC_016 통과: 직군 필터 초기화 정상 동작")
+    
+def test_location_filter(browser,base_url):

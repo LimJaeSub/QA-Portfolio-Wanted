@@ -8,10 +8,11 @@ class JobListPage(BasePage):
 
     # 최상단 필터 버튼
     JOB_GROUP_BUTTON = (By.CSS_SELECTOR, "button[data-filter-name='jobCategory,jobRole']")
-
+    LOCATION_BUTTON = (By.CSS_SELECTOR, "button[data-filter-name='region']")
+    
     # 버튼
-    APPLY_BUTTON = (By.XPATH, "//button[contains(text(), '적용')]")
-    RESET_BUTTON = (By.XPATH, "//button[contains(text(), '초기화')]")
+    APPLY_BUTTON = (By.XPATH, "//button[contains(., '적용')]")
+    RESET_BUTTON = (By.XPATH, "//button[contains(., '초기화')]")
 
     # 결과 카드
     JOB_CARDS = (By.CSS_SELECTOR, "li.Card_Card__aaatv")
@@ -39,7 +40,7 @@ class JobListPage(BasePage):
         왼쪽 대분류 카테고리 선택
         예: "개발", "경영·비즈니스", "마케팅·광고"
         """
-        locator = (By.XPATH, f"//div[contains(text(), '{category_name}')]")
+        locator = (By.XPATH, f"//button[contains(., '{category_name}')]")
         self.click(locator)
         time.sleep(1)
     
@@ -49,17 +50,106 @@ class JobListPage(BasePage):
         오른쪽 세부 직무 선택 (스크롤 포함)
         예: "QA 테스트 엔지니어", "서버 개발자"
         """
-        locator = (By.XPATH, f"//button[contains(text(), '{job_name}')]")
+        locator = (By.XPATH, f"//button[contains(., '{job_name}')]") 
+    
+        # 오른쪽 직무 목록 ul 찾기
+        uls = self.find_elements(
+            (By.CSS_SELECTOR, "div[class*='CategorySelectModal'] ul")
+        )
         
-        # 스크롤이 필요할 수 있음
-        element = self.find_element(locator)
-        self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
-        time.sleep(0.5)
+        job_list_container = uls[1] # 두 번째 ul이 오른쪽 직무 목록임
         
-        self.click(locator)
+        
+        # 반복 스크롤 하면서 요소 찾기
+        for i in range(10):
+            try:
+                element = self.driver.find_element(*locator)
+                if element.is_displayed():
+                    self.click(locator)
+                    time.sleep(1)
+                    return
+            except:
+                pass
+            
+            # 스크롤 다운
+            self.driver.execute_script(
+                "arguments[0].scrollBy(0, 200);", job_list_container
+            )
+            time.sleep(0.3)
+            
+        raise Exception(f"직무 '{job_name}' 요소를 찾을 수 없음")
+                
+    # === 지역 필터 ===
+    def click_location_button(self):
+        """지역 버튼 클릭"""
+        self.click(self.LOCATION_BUTTON)
+        time.sleep(1)
+        
+def select_location(self, country_name, location_name, district_name):
+    """
+    국가 > 지역 > 세부지역 선택 (스크롤 포함)
+    예: "한국", "서울", "관악구"
+    """
+    
+    # 1. 국가 선택
+    country_dropdown = (By.XPATH, "//h6[contains(., '국가')]/following-sibling::div//button")
+    self.click(country_dropdown)
+    time.sleep(0.5)
+    
+    select_country = (By.XPATH, f"//li[contains(., '{country_name}')]")
+    self.click(select_country)
+    time.sleep(1)
+    
+    # 2. 왼쪽 지역 선택 (스크롤 포함)
+    location_locator = (By.XPATH, f"//div[contains(@class, 'Locations')]//button[contains(., '{location_name}')]")
+    
+    location_containers = self.find_elements((By.CSS_SELECTOR, "div[class*='Locations'] ul"))
+    
+    if location_containers:
+        location_ul = location_containers[0]
+        
+        for i in range(10):
+            try:
+                element = self.driver.find_element(*location_locator)
+                if element.is_displayed():
+                    element.click()
+                    time.sleep(1)
+                    break
+            except:
+                pass
+            
+            self.driver.execute_script("arguments[0].scrollBy(0, 200);", location_ul)
+            time.sleep(0.1)
+    else:
+        self.click(location_locator)
         time.sleep(1)
     
+    # 3. 오른쪽 세부지역 선택 (스크롤 포함)
+    district_locator = (By.XPATH, f"//div[contains(@class, 'Districts')]//button[contains(., '{district_name}')]")
     
+    district_containers = self.find_elements((By.CSS_SELECTOR, "div[class*='Districts'] ul"))
+    
+    if district_containers:
+        district_ul = district_containers[0]
+        
+        for i in range(10):
+            try:
+                element = self.driver.find_element(*district_locator)
+                if element.is_displayed():
+                    element.click() 
+                    time.sleep(0.5)
+                    break
+            except:
+                pass
+            
+            self.driver.execute_script("arguments[0].scrollBy(0, 200);", district_ul)
+            time.sleep(0.1)
+    else:
+        self.click(district_locator)
+        time.sleep(0.5)
+        
+        
+
     # ===== 필터 적용/초기화 =====
     
     def apply_filter(self):
