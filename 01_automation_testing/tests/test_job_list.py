@@ -66,3 +66,25 @@ def test_job_filter_reset(browser, base_url):
     print("✅ TC_016 통과: 직군 필터 초기화 정상 동작")
     
 def test_location_filter(browser,base_url):
+    """TC_015 : 지역 필터 - 서울,관악구"""
+
+    # 1. /wdlist 페이지로 이동
+    browser.get(base_url + "/wdlist")
+    job_list_page = JobListPage(browser)
+
+    # 2. 페이지 로드 확인
+    assert job_list_page.is_loaded(), "채용 공고 페이지 로드 실패"
+
+    # 3. 지역 버튼 클릭
+    job_list_page.click_location_button()
+
+    # 4. 국가 "한국" / 지역 "서울" / 세부지역 "관악구" 선택
+    job_list_page.select_location("한국","서울","관악구")
+
+    # 5. 적용 버튼 클릭
+    job_list_page.apply_filter()
+
+    # 6. url에 location 필터가 적용되었는지 확인
+    assert "seoul.gwanak-gu" in job_list_page.get_current_url(), "지역 필터 적용되지 않음"
+    
+    print("✅ TC_017 통과: 지역 필터 정상 동작")
