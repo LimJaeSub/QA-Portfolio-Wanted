@@ -1,3 +1,5 @@
+# pages/job_list_page.py
+
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 import time
@@ -206,3 +208,34 @@ class JobListPage(BasePage):
         """직군 필터가 초기화 상태인지 확인"""
         job_group_text = self.get_text(self.JOB_GROUP_BUTTON)
         return "직군 전체" in job_group_text
+    
+    # --- 상세 페이지 이동 확인 ---
+    def get_first_card_position_id(self):
+        """
+        첫 번째 채용 카드의 position-id 가져오기
+        """
+        cards = self.find_elements(self.JOB_CARDS)
+        
+        if cards:
+            first_card = cards[0]
+            try:
+                # 북마크 버튼의 data-position-id 사용
+                bookmark_btn = first_card.find_element(
+                    By.CSS_SELECTOR, 
+                    "button[data-attribute-id='position__bookmark__click']"
+                )
+                position_id = bookmark_btn.get_attribute("data-position-id")
+                return position_id
+            except:
+                pass
+        
+        return None
+    
+    def go_to_first_job_detail(self):
+        """첫 번째 채용 공고 상세 페이지로 이동"""
+        cards = self.find_elements(self.JOB_CARDS)
+        
+        if cards:
+            first_card = cards[0]
+            first_card.click()
+            time.sleep(2)
