@@ -45,13 +45,9 @@ class MainPage(BasePage):
     
     # main page가 로드 되었는지 확인 
     def is_loaded(self):
-        
-        if((self.get_page_title() == self.PAGE_TITLE)
-           and
-           (self.is_element_visible(self.AI_SEARCH_BUTTON))):
-            return True
-        else:
-            return False
+        """main page가 로드 되었는지 확인"""
+        return (self.get_page_title() == self.PAGE_TITLE and 
+                "wanted.co.kr" in self.get_current_url())
     
     # # AI 검색어 입력 후 엔터
     # def search_ai(self, keyword):

@@ -2,6 +2,7 @@
 
 import time
 from pages.main_page import MainPage
+import pytest
 
 # 페이지 로드 확인
 def test_page_loaded(browser,base_url):
@@ -11,7 +12,7 @@ def test_page_loaded(browser,base_url):
     main_page = MainPage(browser)
     assert main_page.is_loaded()
 
-
+@pytest.mark.skip(reason="원티드에서 AI Agent 기능 제거됨 (2025.02.12)")
 def test_ai_button_visible(browser,base_url):
     # ai에이전트 버튼 확인 : TC_028
     browser.get(base_url)
@@ -20,7 +21,7 @@ def test_ai_button_visible(browser,base_url):
     main_page = MainPage(browser)
     assert main_page.is_element_visible(main_page.AI_SEARCH_BUTTON)
 
-
+@pytest.mark.skip(reason="원티드에서 AI Agent 기능 제거됨 (2025.02.12)")
 def test_ai_agent_button_click(browser,base_url):
     # ai 에이전트 페이지 이동 확인 : TC_028
 
