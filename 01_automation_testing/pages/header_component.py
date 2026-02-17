@@ -2,11 +2,15 @@
 
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
+import time
 
 class Header(BasePage):
     # locator
     SEARCH_ICON = (By.CSS_SELECTOR,"button[data-gnb-kind='search']")
     LOGO = (By.CSS_SELECTOR,"a[aria-label='Wanted']")
+
+    NAVBAR = (By.CSS_SELECTOR, "div[role='presentation']")
+    HAMBURGER_MENU = (By.CSS_SELECTOR, "button[data-gnb-kind='more']")
 
 
     def __init__(self,driver):
@@ -24,3 +28,10 @@ class Header(BasePage):
         # 메뉴 클릭
         locator = (By.CSS_SELECTOR, f"li[data-gnb-kind='{menu_kind}']")
         self.click(locator)
+
+    def is_hamburger_menu_visible(self):
+        try:
+            hamburger = self.find_element(self.HAMBURGER_MENU)
+            return hamburger.is_displayed()
+        except:
+            return False

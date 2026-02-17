@@ -96,5 +96,21 @@ class BasePage:
         # 현재 타이틀
         return self.driver.title
     
+    def set_mobile_viewport(self):
+        # 모바일 뷰포트 전환(375x667)
+        self.driver.set_window_size(375, 667)
+        time.sleep(1)
+    
+    def set_desktop_viewport(self):
+        # 데스크탑 뷰포트 전환(1920x1080)
+        self.driver.set_window_size(1920, 1080)
+        time.sleep(1)
+    
+    def get_window_size(self):
+        # 현재 창 크기 반환
+        size = self.driver.get_window_size()
+        return size['width'], size['height']
+    
+    
 
 
