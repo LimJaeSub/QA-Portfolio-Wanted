@@ -44,6 +44,7 @@ def test_empty_enter_keyword(browser,base_url):
     # toast UI message 확인
     message = modal.get_toast_message()
     assert "검색어를 입력해주세요" in message
+    print("✅ TC_003 통과: 공백 검색어 입력 테스트 성공")
 
 def test_autocomplete(browser,base_url):
     """자동완성 기능 확인"""
@@ -77,4 +78,6 @@ def test_autocomplete(browser,base_url):
             matching_list.append(auto)
     
     assert len(matching_list)>=1
+    
+    print("✅ TC_005 통과: 자동완성 키워드 테스트 성공")
     

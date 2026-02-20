@@ -3,7 +3,7 @@ import pytest
 from pages.search_page import SearchModal, SearchResultsPage
 
 def test_result_page(browser,base_url):
-    # 검색 전체 플로우 : TC_001
+    """검색 전체 플로우 : TC_001"""
 
     browser.get(base_url)
     time.sleep(2)
@@ -28,7 +28,7 @@ def test_result_page(browser,base_url):
     search_query = result_page.get_search_query()
     assert search_query==keyword
 
-    print(f"\n검색 성공! 키워드: {keyword}")
+    print("✅ TC_001 통과: 검색 성공")
 
 
 def test_result_count_matches(browser,base_url):
@@ -104,7 +104,7 @@ def test_result_count_matches(browser,base_url):
 
 
 def test_no_results(browser,base_url):
-    # 결과 없는 검색어 : TC_002
+    """결과 없는 검색어 : TC_002"""
     browser.get(base_url)
     time.sleep(2)
 
@@ -131,7 +131,7 @@ def test_no_results(browser,base_url):
 
     print(f"\n검색어: {keyword}")
     print(f"메시지: {message}")
-    print("검색 결과 없음 확인")
+    print("✅ TC_002 통과: 결과 없는 값 검색 확인")
     
 @pytest.mark.skip(reason="로그인 필요 (테스트 계정 생성 불가, 이미 가입한 명의로 재가입 불가능)")
 def test_recent_searches(browser,base_url):
