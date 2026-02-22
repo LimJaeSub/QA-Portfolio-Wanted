@@ -92,13 +92,18 @@ class JobListPage(BasePage):
         국가 > 지역 > 세부지역 선택 (스크롤 포함)
         예: "한국", "서울", "관악구"
         """
+
+        self.wait_for_backdrop_disappear() # 백드롭 사라질 때까지 대기
+
         
         # 1. 국가 선택
         country_dropdown = (By.XPATH, "//h6[contains(., '국가')]/following-sibling::div//button")
+        self.wait_for_clickable(country_dropdown)
         self.click(country_dropdown)
-        time.sleep(0.5)
+        time.sleep(1)
         
-        select_country = (By.XPATH, f"//li[contains(., '{country_name}')]")
+        select_country = (By.XPATH, f"//ul[contains(@class, 'Selector__options')]//button[contains(., '{country_name}')]")
+        self.wait_for_clickable(select_country)
         self.click(select_country)
         time.sleep(1)
         

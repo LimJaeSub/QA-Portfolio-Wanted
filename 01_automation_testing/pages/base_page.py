@@ -111,6 +111,21 @@ class BasePage:
         size = self.driver.get_window_size()
         return size['width'], size['height']
     
+    def wait_for_backdrop_disappear(self, timeout=10):
+        """백드롭이 사라질 때까지 대기"""
+        try:
+            WebDriverWait(self.driver, timeout).until_not(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='backdrop']"))
+            )
+        except:
+            pass  # 백드롭이 없으면 그냥 진행
+
+    def wait_for_clickable(self, locator, timeout=10):
+        """요소가 클릭 가능할 때까지 대기"""
+        return WebDriverWait(self.driver, timeout).until(
+            EC.element_to_be_clickable(locator)
+        )
+    
     
 
 

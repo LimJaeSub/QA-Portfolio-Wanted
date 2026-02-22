@@ -1,5 +1,6 @@
 from pages.search_page import SearchModal # 테스트할 클래스
 import time
+import pytest
 
 def test_open_modal(browser,base_url):
     """모달 열리는 것 확인"""
