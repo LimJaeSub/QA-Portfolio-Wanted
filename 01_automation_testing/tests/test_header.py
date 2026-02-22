@@ -6,7 +6,7 @@ from pages.header_component import Header
 from selenium.webdriver.common.by import By
 
 def test_logo_click(browser,base_url):
-    # 로고 클릭시 메인 페이지 이동 : TC_025
+    # 로고 클릭시 메인 페이지 이동 : TC_024
     # 다른 페이지에서 시작해야함
     browser.get(base_url+"ai/agent")
     time.sleep(2)
@@ -17,6 +17,7 @@ def test_logo_click(browser,base_url):
 
     assert browser.current_url == base_url \
         or browser.current_url == base_url + "/"
+    print("✅ TC_024 통과: 로고 클릭시 메인 페이지 이동 확인")
 
 
 @pytest.mark.parametrize("menu_kind,expected_url",[
@@ -27,7 +28,7 @@ def test_logo_click(browser,base_url):
     ("community","community")
 ])
 def test_menu_click(browser,base_url,menu_kind,expected_url):
-    # 메뉴 클릭시 페이지 이동 : TC_026
+    # 메뉴 클릭시 페이지 이동 : TC_025
     browser.get(base_url)
     time.sleep(2)
 
@@ -36,6 +37,7 @@ def test_menu_click(browser,base_url,menu_kind,expected_url):
     time.sleep(2)
 
     assert expected_url in browser.current_url
+    print(f"✅ TC_025 통과: {menu_kind} 메뉴 클릭시 {expected_url} 페이지 이동 확인")
 
 def test_responsive_hamburger_menu(browser, base_url):
     """TC_037: 반응형 - 햄버거 메뉴 992px 기준 확인"""

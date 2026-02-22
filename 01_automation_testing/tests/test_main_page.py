@@ -23,8 +23,6 @@ def test_ai_button_visible(browser,base_url):
 
 @pytest.mark.skip(reason="원티드에서 AI Agent 기능 제거됨 (2025.02.12)")
 def test_ai_agent_button_click(browser,base_url):
-    # ai 에이전트 페이지 이동 확인 : TC_028
-
     browser.get(base_url)
     time.sleep(2)
 
@@ -36,7 +34,7 @@ def test_ai_agent_button_click(browser,base_url):
 
 
 def test_shortcut_menu_click(browser,base_url):
-    # shortcut 바로가기 메뉴 작동 확인
+    # TC_033 :shortcut 바로가기 메뉴 작동 확인
     browser.get(base_url)
     time.sleep(2)
 
@@ -49,9 +47,10 @@ def test_shortcut_menu_click(browser,base_url):
     time.sleep(2)
 
     assert "/wdlist" in browser.current_url
+    print("✅ TC_033 통과: shortcut 바로가기 메뉴 작동 확인")
 
 def test_slider_navigation(browser,base_url):
-    """TC_035 : 메인 페이지 슬라이더 작동"""
+    """TC_032 : 메인 페이지 슬라이더 작동"""
     browser.get(base_url)
     main_page = MainPage(browser)
     assert main_page.is_loaded(), "메인 페이지 로드 실패"
@@ -78,4 +77,4 @@ def test_slider_navigation(browser,base_url):
     reverted_titles = main_page.get_visible_card_titles()
     assert first_titles == reverted_titles, "슬라이더 왼쪽 이동 후 첫 슬라이드로 복귀 실패"
 
-    print("✅ TC_035 통과: 메인 페이지 슬라이더 정상 작동")
+    print("✅ TC_032 통과: 메인 페이지 슬라이더 정상 작동")

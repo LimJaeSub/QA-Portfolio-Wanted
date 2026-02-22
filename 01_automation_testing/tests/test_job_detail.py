@@ -3,7 +3,7 @@ from pages.job_list_page import JobListPage
 import pytest
 
 def test_job_detail_page_load(browser, base_url):
-    """TC_019: 채용 공고 상세 페이지 로드 확인"""
+    """TC_018: 채용 공고 상세 페이지 로드 확인"""
     
     # 1. 채용 공고 페이지로 이동
     browser.get(base_url+"/wdlist")
@@ -25,10 +25,10 @@ def test_job_detail_page_load(browser, base_url):
     # 5. URL에 position_id가 포함되어 있는지 확인
     current_url = job_detail_page.get_current_url()
     assert first_position_id in current_url, "상세 페이지 URL에 position_id가 포함되지 않음"
-    print("✅ TC_019 통과: 채용 공고 상세 페이지 정상 로드")
+    print("✅ TC_018 통과: 채용 공고 상세 페이지 정상 로드")
 
 def test_company_map_section(browser, base_url):
-    """TC_020 : 채용 공고 상세 - 지도 섹션 확인"""
+    """TC_019 : 채용 공고 상세 - 지도 섹션 확인"""
     # 1. /wdlist 페이지에서 position_id 추출
     browser.get(base_url + "/wdlist")
     job_list_page = JobListPage(browser)
@@ -45,10 +45,10 @@ def test_company_map_section(browser, base_url):
     assert job_detail_page.is_map_visible(), "지도 섹션이 보이지 않음"
     assert job_detail_page.has_map_h2(), "지도 섹션 h2 태그가 없음"
     assert job_detail_page.has_map_component(), "지도 컴포넌트가 없음"
-    print("✅ TC_020 통과: 채용 공고 상세 - 지도 섹션 정상 확인")
+    print("✅ TC_019 통과: 채용 공고 상세 - 지도 섹션 정상 확인")
 
 def test_job_description_section(browser,base_url):
-    """TC_021 : 채용 공고 상세 - 포지션 상세 섹션 확인"""
+    """TC_020: 채용 공고 상세 - 포지션 상세 섹션 확인"""
     # 1. /wdlist 페이지에서 position_id 추출
     browser.get(base_url + "/wdlist")
     job_list_page = JobListPage(browser)
@@ -64,4 +64,4 @@ def test_job_description_section(browser,base_url):
     # 3. 포지션 상세 확인
     assert job_detail_page.verify_job_description_content(), "포지션 상세 섹션 내용 확인 실패"
     
-    print("✅ TC_021 통과: 채용 공고 상세 - 포지션 상세 섹션 정상 확인")
+    print("✅ TC_020 통과: 채용 공고 상세 - 포지션 상세 섹션 정상 확인")

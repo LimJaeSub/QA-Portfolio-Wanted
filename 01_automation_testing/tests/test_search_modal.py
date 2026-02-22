@@ -46,6 +46,31 @@ def test_empty_enter_keyword(browser,base_url):
     assert "검색어를 입력해주세요" in message
     print("✅ TC_003 통과: 공백 검색어 입력 테스트 성공")
 
+@pytest.mark.skip(reason="XSS 관련 TC는 스크립트만 작성")
+def test_XSS(browser,base_url):
+    """XSS 입력제한 확인"""
+    browser.get(base_url)
+    time.sleep(2)
+    
+    # 검색 모달 오픈
+    modal = SearchModal(browser)
+    modal.open_modal()
+    time.sleep(2)
+    
+    # XSS 스크립트 입력
+    xss_script = "<script>alert('XSS')</script>"
+    modal.enter_search_keyword(xss_script)
+    time.sleep(2)
+    
+    # 검색어 입력 후 검색 실행
+    modal.execute_search()
+    time.sleep(2)
+    
+    # XSS 스크립트가 실행되지 않고 검색어로 처리되는지 확인
+    assert not modal.is_alert_present()
+    print("✅ TC_004 통과: XSS 입력 제한 테스트 성공")
+    
+
 def test_autocomplete(browser,base_url):
     """자동완성 기능 확인"""
 

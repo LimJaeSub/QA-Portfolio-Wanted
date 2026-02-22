@@ -61,34 +61,6 @@ def test_result_count_matches(browser,base_url):
     active_tab = result_page.now_tab()
     print(f"\n 현재 탭 : {active_tab}")
 
-   
-    
-    # 디버깅: RESULT_COUNT 요소 찾기 시도
-    # print("RESULT_COUNT 요소 찾는 중...")
-    # try:
-    #     elements = result_page.find_elements(result_page.RESULT_COUNT)
-    #     print(f"찾은 요소 개수: {len(elements)}")
-    
-    #     if len(elements) > 0:
-    #         print(f"첫 번째 요소 텍스트: {elements[0].text}")
-    #         print(f"첫 번째 요소 visible: {elements[0].is_displayed()}")
-    
-    #     # 강제로 첫 번째 요소 사용
-    #     if len(elements) > 0 and elements[0].is_displayed():
-    #         result_count = int(elements[0].text)
-    #     else:
-    #         raise Exception("요소를 찾았지만 보이지 않음!")
-        
-    # except Exception as e:
-    #     print(f"에러: {e}")
-    #     # 페이지 소스 일부 출력
-    #     print("페이지에 'TitleCount' 있나?", 'TitleCount' in browser.page_source)
-    # raise
-
-    # print(f"타이틀 개수: {result_count}")
-
-
-    
     
     # 타이틀에 표시된 결과 갯수
     result_count = result_page.get_result_count_from_title()
@@ -101,6 +73,8 @@ def test_result_count_matches(browser,base_url):
     assert result_count == scroll_count, \
         f"개수 불일치! 타이틀: {result_count}, 실제: {scroll_count}"
     print("개수 비교 테스트 종료")
+    
+    print("✅ TC_008 통과: 타이틀의 갯수와 실제 갯수 일치 확인")
 
 
 def test_no_results(browser,base_url):
@@ -167,6 +141,7 @@ def test_recent_searches(browser,base_url):
         f"최근 검색어에 {keyword}가 없음"
         
     print(f"\n최근 검색어 리스트: {recent_searches}")
+    print("✅ TC_006 통과: 최근 검색어에 새 검색어 추가 확인")
 
 
 

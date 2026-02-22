@@ -4,7 +4,7 @@ import pytest
 
 
 def test_job_filter_qa(browser, base_url):
-    """TC_015: 직군 필터 - 개발 > QA 테스트 엔지니어"""
+    """TC_013: 직군 필터 - 개발 > QA 테스트 엔지니어"""
     
     # 1. /wdlist 페이지로 이동
     browser.get(base_url + "/wdlist")
@@ -28,7 +28,7 @@ def test_job_filter_qa(browser, base_url):
     # 7. 검색 결과에 "QA" 키워드가 5개 이상 포함되는지 확인
     assert job_list_page.keyword_in_job_cards("QA"), "QA 필터링 결과 부족"
     
-    print("✅ TC_015 통과: 직군 필터 정상 동작")
+    print("✅ TC_013 통과: 직군 필터 정상 동작")
 
 
 def test_job_filter_reset(browser, base_url):
@@ -91,10 +91,10 @@ def test_location_filter(browser,base_url):
     # 7. 검색 결과에 "관악구" 키워드가 5개 이상 포함되는지 확인
     assert job_list_page.keyword_in_job_cards("관악구"), "관악구 필터링 결과 부족"
     
-    print("✅ TC_017 통과: 지역 필터 정상 동작")
+    print("✅ TC_015 통과: 지역 필터 정상 동작")
 
 def test_location_filter_reset(browser,base_url):
-    """TC_016 : 지역 필터 초기화 기능"""
+    """TC_017 : 지역 필터 초기화 기능"""
 
     # 1. /wdlist 페이지로 이동
     browser.get(base_url + "/wdlist")
@@ -123,5 +123,5 @@ def test_location_filter_reset(browser,base_url):
     # 8. URL이 초기 상태로 돌아왔는지 확인
     assert "locations=all" in job_list_page.get_current_url(), "필터가 초기화되지 않음"
 
-    print("✅ TC_018 통과: 지역 필터 초기화 정상 동작")
+    print("✅ TC_017 통과: 지역 필터 초기화 정상 동작")
 
