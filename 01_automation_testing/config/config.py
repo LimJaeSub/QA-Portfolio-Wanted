@@ -49,7 +49,11 @@ class Config:
         else:
             # 일반 모드(창 있음)
             options.add_argument("--start-maximized")
-            
+        
+        # CI 환경
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        
         # 알림 비활성화
         options.add_argument("--disable-notifications")
         
