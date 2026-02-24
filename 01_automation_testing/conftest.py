@@ -22,13 +22,18 @@ import pytest
 from selenium import webdriver
 from config.config import Config
 
+# CI/CD 환경에서 드라이버 자동 설치용 추가 import
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 # pytest작성
 @pytest.fixture(scope="function")
 def browser():
     # Setup : 브라우저 생성
     options = Config.get_chrome_options() # config에서 크롬 옵션 가져오기
-    driver = webdriver.Chrome(options=options) # 가져온 option으로 driver 생성
+    service = Service(ChromeDriverManager().install()) # ChromeDriverManager로 드라이버 설치 및 서비스 생성
+    driver = webdriver.Chrome(service=service,options=options) # 가져온 option으로 driver 생성
     driver.implicitly_wait(Config.IMPLICIT_WAIT) # 대기 시간 생성
     driver.maximize_window() # 화면 최대화
 
