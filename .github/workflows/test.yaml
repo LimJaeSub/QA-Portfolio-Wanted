@@ -31,4 +31,6 @@ jobs:
         if: always()
         with:
           name: test-report
-          path: report.html
+          path: |
+            report.html
+            screenshot.png

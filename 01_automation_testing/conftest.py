@@ -41,6 +41,9 @@ def browser():
 
     yield driver # driver 전달
 
+    if hasattr(driver, 'session_id'):
+        driver.save_screenshot("screenshot.png") # 종료 전에 스크린샷 저장
+
     # 브라우저 종료
     print(f"\n브라우저 종료")
     driver.quit()
